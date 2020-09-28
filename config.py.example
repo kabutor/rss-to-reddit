@@ -1,0 +1,19 @@
+#if you are using cron or calling the script for another directory
+#use full path for this two files i.e.( /opt/reddit/history.json )
+historyfile = "history.json"
+logfile = "submit.log"
+
+reddit = {
+    "client_id": "",
+    "client_secret": "",
+    "user_agent": "rss-to-reddit",
+    "username": "",
+    "password": "",
+    "subreddit": "",
+    "send_replies": False
+}
+
+feeds = [
+	("Punto_de_Victoria", "http://feeds.feedburner.com/PuntoDeVictoria"),
+        ("El_Tablero_Podcast","http://feeds.feedburner.com/ElTableroPodcast")
+]

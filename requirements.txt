@@ -1,0 +1,10 @@
+certifi
+chardet
+feedparser
+html2text
+idna
+praw
+prawcore
+requests
+update-checker
+urllib3
