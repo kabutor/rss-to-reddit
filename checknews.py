@@ -3,9 +3,9 @@ import time
 import praw
 import feedparser
 import html2text
-from datetime import datetime
 
 import config
+from datetime import datetime
 
 # Create reddit client
 reddit = praw.Reddit(
@@ -35,30 +35,33 @@ for name, url in config.feeds:
         history[name] = ""
 
     # Check if we have a new entry to post
-    feed = feedparser.parse(url)
-    if feed['entries'][0]['title'] != history[name]:
-        # Check its not just a blank because it's a first run
-        entry = feed['entries'][0]
-        _link = entry['link']
-        _title = entry['title']
-        history[name] = entry['title']
-        
-        #send to reddit the link using praw
-        submission = subreddit.submit(
-            title = _title,
-            selftext=None,
-            url=_link ,
-            send_replies=config.reddit['send_replies']
-        )
-        #add to log file
-        now = datetime.now()
-        _localtime = now.strftime("%d/%m/%Y %H:%M:%S")
-        f = open( config.logfile , "a")
-        f.write( _localtime + ":" + submission.title + "\n")
-        f.close()
-        #print to console
-        print ("Submitted: %s" % submission.title)
-        time.sleep(10)
+    try:
+        feed = feedparser.parse(url)
+        if feed['entries'][0]['title'] != history[name]:
+            # Check its not just a blank because it's a first run
+            entry = feed['entries'][0]
+            _link = entry['link']
+            _title = entry['title']
+            history[name] = entry['title']
+            
+            submission = subreddit.submit(
+                title = _title,
+                selftext=None,
+                url=_link ,
+                send_replies=config.reddit['send_replies']
+            )
+            now = datetime.now()
+            _localtime = now.strftime("%d/%m/%Y %H:%M:%S")
+            f = open( config.logfile , "a")
+            f.write( _localtime + ":" + submission.title + "\n")
+            f.close()
+            print ("Submitted: %s" % submission.title)
+            time.sleep(10)
+    except Exception as e:
+            fp = open( config.logfile + "err" , "a")
+            fp.write( _localtime + ":" + e + "\n")
+            fp.close()
+            print (e)
 
         
 
