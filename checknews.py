@@ -59,7 +59,7 @@ for name, url in config.feeds:
             time.sleep(10)
     except Exception as e:
             fp = open( config.logfile + "err" , "a")
-            fp.write( _localtime + ":" + e + "\n")
+            fp.write( _localtime + ":" + str(e) + "\n")
             fp.close()
             print (e)
 
